@@ -11,46 +11,47 @@ export default () => {
   const [selected, setSelected] = useState("");
   const [loaading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [jobViewLink, setJobViewLink] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [spinner, setSpinner] = useState(false);
+  const [searchTerms, setSearchTerms] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({ _id: 0 });
+
+  useEffect(() => {
+    loadSelectSearch();
+  }, []);
 
   useEffect(() => {
     getData(selected);
   }, [selected, checked]);
 
-  useEffect(() => {
-    getJobDetail(jobViewLink);
-  }, [jobViewLink]);
-
-  const handleJobSeach = async (e) => {
-    setSelected(e.target.value);
+  const onClickItemJobList = async (selectedItem) => {
+    setSpinner(true);
+    setSelectedItem(selectedItem);
+    await getJobDetail(selectedItem.link);
+    setSpinner(false);
   };
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const loadSelectSearch = async () => {
+    const { data } = await axios(`http://localhost:8789/getAllSearchTerms`);
+    setSearchTerms(data);
   };
 
   const getJobDetail = async (value) => {
-    setSpinner(true);
-    if (value !== "") {
-      const list = await axios(`http://localhost:8789/positions/detail/`, {
+    if (value) {
+      const { data } = await axios(`http://localhost:8789/positions/detail/`, {
         params: { link: value },
       });
-      setJobDetails(list.data);
-    } else {
-      setJobDetails("");
+      setJobDetails(data);
     }
-    setSpinner(false);
   };
 
   const getData = async (value) => {
     setLoading(true);
-    if (value !== "") {
-      const list = await axios(`http://localhost:8789/positions/`, {
+    if (value) {
+      const { data } = await axios(`http://localhost:8789/positions/`, {
         params: { search: value, salary: checked },
       });
-      setJobs(list.data);
+      setJobs(data);
     } else {
       setJobDetails("");
       setJobs([]);
@@ -65,27 +66,24 @@ export default () => {
           <select
             className="job-search-select"
             onChange={(e) => {
-              handleJobSeach(e);
+              setSelected(e.target.value);
             }}
             value={selected}
           >
             <option value="">Olá Marcelo! Quais vagas você procura?</option>
-            <option value="R">React</option>
-            <option value="JS">JavaScript</option>
-            <option value="RN">React Native</option>
-            <option value="NJ">Node + Java</option>
-            <option value="NJS">Node js</option>
-            <option value="TS">TypeScript</option>
-            <option value="J">Java</option>
-            <option value="SB">Spring boot</option>
-            <option value="EN">Inglês Fluente</option>
-            <option value="FT">Flutter</option>
+            {searchTerms.map((item, key) => (
+              <option key={key} value={item.code}>
+                {item.label + ` (${item.numberOfJobs} vagas)`}
+              </option>
+            ))}
           </select>
         </div>
         <div className="job-search-form-filter">
           <Checkbox
             checked={checked}
-            onChange={handleChange}
+            onChange={(event) => {
+              setChecked(event.target.checked);
+            }}
             size="medium"
             color="default"
           />
@@ -103,7 +101,14 @@ export default () => {
         <div className="jobs">
           {jobs.map((item, key) => {
             return (
-              <JobViewDetail key={key} item={item} onClick={setJobViewLink} />
+              <JobViewDetail
+                key={key}
+                item={item}
+                active={item._id === selectedItem._id}
+                onClick={() => {
+                  onClickItemJobList(item);
+                }}
+              />
             );
           })}
         </div>
@@ -115,8 +120,25 @@ export default () => {
                   {spinner ? (
                     <Spinner />
                   ) : (
-                    <div className="frame-job-view-detail-text">
-                      {jobDetails}
+                    <div className="frame-job-view-detail-header-info">
+                      <div className="frame-job-view-detail-info">
+                        <div className="frame-job-view-detail-info-header">
+                          <div className="frame-job-view-detail-info-company">
+                            {selectedItem.companyName}
+                          </div>
+                          <div className="frame-job-view-detail-info-title">
+                            {selectedItem.position}
+                          </div>
+                        </div>
+                        <div className="frame-job-view-detail-cadastrar">
+                          <a href={selectedItem.link}>
+                            <input value="Candidate-se" type="submit"></input>
+                          </a>
+                        </div>
+                      </div>
+                      <div className="frame-job-view-detail-text">
+                        {jobDetails}
+                      </div>
                     </div>
                   )}
                 </div>

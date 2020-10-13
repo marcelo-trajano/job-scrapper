@@ -1,13 +1,9 @@
 import React from "react";
 
-export default ({ item, onClick }) => {
+export default ({ item, onClick, active }) => {
   return (
-    <div
-      onClick={() => {
-        onClick(item.link);
-      }}
-    >
-      <div className="jobs-row">
+    <div onClick={onClick}>
+      <div className={`jobs-row ${active ? "active" : ""}`}>
         {item.posted && <div className="jobs-data"> {item.posted} </div>}
         <div className="jobs-data"> {item.position}</div>
         {item.companyName && (

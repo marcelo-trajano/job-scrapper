@@ -88,10 +88,13 @@ option {
   display: flex;
   flex-direction: row;
   padding: 10px;
-  border: 1px solid #aaaaaa;
+  border: 1px solid #f9f9f9;
   border-radius: 6px;
-  background-color: #aaaaaa;
+  background-color: #c9c9c9;
   cursor: pointer;
+}
+.active {
+  background-color: #858282;
 }
 
 .jobs-data {
@@ -101,7 +104,7 @@ option {
   padding: 7px;
   background-color: rgb(255, 255, 255);
   border-radius: 7px;
-  border: 1px solid #aaaaaa;
+  border: 1px solid #dadada;
 }
 
 .frame-job-view {
@@ -138,6 +141,55 @@ option {
   font-size: 20px;
   height: max-content;
   margin-bottom: 10px;
+}
+
+.frame-job-view-detail-header-info {
+}
+
+.frame-job-view-detail-info {
+  position: initial;
+  padding: 20px;
+  background-color: rgb(202, 197, 197);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 7px;
+}
+
+.frame-job-view-detail-info-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.frame-job-view-detail-info-company {
+  font-size: 28px;
+  color: rgb(123, 123, 123);
+}
+
+.frame-job-view-detail-info-title {
+  font-size: 23px;
+  color: rgb(123, 123, 123);
+}
+
+.frame-job-view-detail-cadastrar {
+}
+
+.frame-job-view-detail-cadastrar input {
+  width: 125px;
+  height: 50px;
+  background-color: rgb(71, 62, 250);
+  color: rgb(232, 232, 232);
+  border-radius: 9px;
+  padding: 11px;
+  font-size: 15px;
+  border-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.frame-job-view-detail-cadastrar input:hover {
+  background-color: rgb(72, 45, 170);
 }
 
 .salary {
