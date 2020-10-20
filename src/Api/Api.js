@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors");
+//const cors = require("cors");
 const mongoose = require("mongoose");
 const puppeteer = require("puppeteer");
 const Positions = require("./Positions");
@@ -7,27 +7,32 @@ const SearchTerm = require("./SearchTerm");
 const moment = require("moment");
 const app = express();
 require("dotenv").config();
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+//app.use(cors({ origin: process.env.CORS_ORIGIN }));
+//app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
-// app.use((req, res, next) => {
-//   console.log("ACESSANDO MIDDLEWARE...");
+mongoose.connect(
+  "mongodb+srv://userdb:Dev19821@cluster0.znl6l.mongodb.net/userdb?retryWrites=true&w=majority",
+  { useNewUrlParser: true }
+);
 
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "X-Requested-With,content-type"
-//   );
-//   res.setHeader("Access-Control-Allow-Credentials", true);
+app.use((req, res, next) => {
+  console.log("ACESSANDO MIDDLEWARE...");
 
-//   next();
-// });
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
 
-app.get("/positions/", async (req, res) => {
+  next();
+});
+
+app.get("/positions", async (req, res) => {
   try {
     const data = Number(moment(Date.now()).format("YYYYMMDD"));
     let list = [];
@@ -70,7 +75,7 @@ app.get("/getAllSearchTerms", async (req, res) => {
   }
 });
 
-app.get("/positions/detail/", async (req, res) => {
+app.get("/positions/detail", async (req, res) => {
   try {
     let result = [];
 

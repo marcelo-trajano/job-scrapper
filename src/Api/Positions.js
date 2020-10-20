@@ -8,13 +8,13 @@ const DataSchema = new Schema(
     salary: String,
     posted: String,
     link: String,
-    //description: String,
-    code: { type: String, default: "GQL" },
+    code: String,
     insertDate: Number,
+    //description: String,
   },
   { timestamps: true }
 );
 
-const Jobs = mongoose.model("job", DataSchema);
+const Jobs = mongoose.model("jobTest", DataSchema);
 
 module.exports = Jobs;
