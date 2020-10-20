@@ -14,7 +14,7 @@ export default () => {
   const [jobDetails, setJobDetails] = useState("");
   const [spinner, setSpinner] = useState(false);
   const [searchTerms, setSearchTerms] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({ _id: 0 });
+  const [selectedItem, setSelectedItem] = useState({});
 
   useEffect(() => {
     loadSelectSearch();
@@ -38,7 +38,7 @@ export default () => {
 
   const getJobDetail = async (value) => {
     if (value) {
-      const { data } = await axios(`http://localhost:8789/positions/detail/`, {
+      const { data } = await axios(`http://localhost:8789/positions/detail`, {
         params: { link: value },
       });
       setJobDetails(data);
@@ -48,7 +48,7 @@ export default () => {
   const getData = async (value) => {
     setLoading(true);
     if (value) {
-      const { data } = await axios(`http://localhost:8789/positions/`, {
+      const { data } = await axios(`http://localhost:8789/positions`, {
         params: { search: value, salary: checked },
       });
       setJobs(data);
