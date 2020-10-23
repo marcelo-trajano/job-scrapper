@@ -48,9 +48,12 @@ export default () => {
   const getData = async (value) => {
     setLoading(true);
     if (value) {
-      const { data } = await axios(`http://localhost:8789/positions`, {
-        params: { search: value, salary: checked },
-      });
+      const { data } = await axios(
+        `http://localhost:8080/api/v1/getJobList/${value}/${checked}`,
+        {
+          //params: { search: value, salary: checked },
+        }
+      );
       setJobs(data);
     } else {
       setJobDetails("");

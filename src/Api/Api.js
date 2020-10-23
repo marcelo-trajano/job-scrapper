@@ -10,10 +10,7 @@ require("dotenv").config();
 //app.use(cors({ origin: process.env.CORS_ORIGIN }));
 //app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
-mongoose.connect(
-  "mongodb+srv://userdb:Dev19821@cluster0.znl6l.mongodb.net/userdb?retryWrites=true&w=majority",
-  { useNewUrlParser: true }
-);
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 
 app.use((req, res, next) => {
   console.log("ACESSANDO MIDDLEWARE...");
@@ -45,7 +42,7 @@ app.get("/positions", async (req, res) => {
       } else {
         list = await Positions.find({
           code: { $eq: req.query.search },
-          insertDate: { $eq: data },
+          insertDate: { $eq: 20201020 },
         });
       }
       res.json(list);
@@ -66,7 +63,7 @@ app.get("/getAllSearchTerms", async (req, res) => {
     result = await SearchTerm.find({
       //createdAt: new Date("2020-10-15T05:11:21.957+00:00"),
       //createdAt: { $gte: "2020-10-14", $lte: "2020-10-15" },
-      insertDate: { $eq: data },
+      insertDate: { $eq: 20201020 },
     });
 
     res.json(result);
