@@ -32,7 +32,7 @@ export default () => {
   };
 
   const loadSelectSearch = async () => {
-    const { data } = await axios(`http://localhost:8789/getAllSearchTerms`);
+    const { data } = await axios(`http://localhost:8080/api/jobtitle/all`);
     setSearchTerms(data);
   };
 
