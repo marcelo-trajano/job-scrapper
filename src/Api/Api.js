@@ -7,10 +7,9 @@ const SearchTerm = require("./SearchTerm");
 const moment = require("moment");
 const app = express();
 require("dotenv").config();
-//app.use(cors({ origin: process.env.CORS_ORIGIN }));
-//app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+//app.use(cors({ origin: process.env.CORS_ORIGIN }));
+//app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
 app.use((req, res, next) => {
   console.log("ACESSANDO MIDDLEWARE...");
@@ -123,7 +122,8 @@ app.get("/positions/getAll/:search", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8789;
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+const PORT = process.env.PORT || 9090;
 app.listen(PORT, () => {
   console.log("server listening at port: " + PORT);
 });

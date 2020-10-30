@@ -49,7 +49,7 @@ export default () => {
     setLoading(true);
     if (value) {
       const { data } = await axios(
-        `http://localhost:8080/api/v1/getJobList/${value}/${checked}`,
+        `http://localhost:8080/api/searchJobOpportunities/${value}/${checked}`,
         {
           //params: { search: value, salary: checked },
         }
@@ -107,7 +107,7 @@ export default () => {
               <JobViewDetail
                 key={key}
                 item={item}
-                active={item._id === selectedItem._id}
+                active={item.job_id === selectedItem.job_id}
                 onClick={() => {
                   onClickItemJobList(item);
                 }}
